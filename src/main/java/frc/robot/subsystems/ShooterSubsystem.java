@@ -6,39 +6,28 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 
-public class IntakeSubsystem extends SubsystemBase
+public class ShooterSubsystem extends SubsystemBase
 {
-    private DoubleSolenoid extensionSolenoid;
-    private SpeedController intakeMotor;
+    private SpeedController motor;
     private CANPIDController PIDController;
     private CANEncoder encoder;
     private double P, I, D, Iz, FF, maxOutput, minOutput;
-    private boolean spinning;
-    private boolean extended;
     
-    public IntakeSubsystem()
+    public ShooterSubsystem()
     {
-        CANSparkMax sparkMax = new CANSparkMax(6, MotorType.kBrushless);
+        CANSparkMax sparkMax = new CANSparkMax(9, MotorType.kBrushless);
         sparkMax.restoreFactoryDefaults();
         
         PIDController = sparkMax.getPIDController();
         encoder = sparkMax.getEncoder();
         
-        intakeMotor = sparkMax;
-        
-        extensionSolenoid = new DoubleSolenoid(7, 8);
-        extensionSolenoid.set(Value.kOff);
-        
-        spinning = false;
-        extended = false;
+        motor = sparkMax;
         
         P = 0.00010; 
         I = 0;
@@ -59,22 +48,22 @@ public class IntakeSubsystem extends SubsystemBase
         RobotContainer.sbTab.add("Intake Encoder", encoder).withWidget(BuiltInWidgets.kEncoder).withPosition(0, 6).withSize(2, 1);
         RobotContainer.sbTab.add("Intake PID", PIDController).withWidget(BuiltInWidgets.kPIDController).withPosition(0, 7).withSize(1, 2);
         
-        SmartDashboard.putNumber("Intake - P", P);
-        SmartDashboard.putNumber("Intake - I", I);
-        SmartDashboard.putNumber("Intake - D", D);
-        SmartDashboard.putNumber("Intake - Iz", Iz);
-        SmartDashboard.putNumber("Intake - FF", FF);
-        SmartDashboard.putNumber("Intake - minOutput", minOutput);
-        SmartDashboard.putNumber("Intake - maxOutput", maxOutput);
+        SmartDashboard.putNumber("Shooter - P", P);
+        SmartDashboard.putNumber("Shooter - I", I);
+        SmartDashboard.putNumber("Shooter - D", D);
+        SmartDashboard.putNumber("Shooter - Iz", Iz);
+        SmartDashboard.putNumber("Shooter - FF", FF);
+        SmartDashboard.putNumber("Shooter - minOutput", minOutput);
+        SmartDashboard.putNumber("Shooter - maxOutput", maxOutput);
     }
     
     public void updatePID()
     {
-        double p = SmartDashboard.getNumber("Intake - P", 0);
-        double i = SmartDashboard.getNumber("Intake - I", 0);
-        double d = SmartDashboard.getNumber("Intake - D", 0);
-        double min = SmartDashboard.getNumber("Intake - minOutput", 0);
-        double max = SmartDashboard.getNumber("Intake - maxOutput", 0);
+        double p = SmartDashboard.getNumber("Shooter - P", 0);
+        double i = SmartDashboard.getNumber("Shooter - I", 0);
+        double d = SmartDashboard.getNumber("Shooter - D", 0);
+        double min = SmartDashboard.getNumber("Shooter - minOutput", 0);
+        double max = SmartDashboard.getNumber("Shooter - maxOutput", 0);
         
         if(p != P)
         {
@@ -104,29 +93,8 @@ public class IntakeSubsystem extends SubsystemBase
         PIDController.setReference(velocity, ControlType.kVelocity);
     }
     
-    public void toggleExtension()
+    public void spin(double velocity)
     {
-        if(extended)
-        {
-            extensionSolenoid.set(Value.kReverse);
-        }
-        else
-        {
-            extensionSolenoid.set(Value.kForward);
-        }
-        extended = !extended;
-    }
-    
-    public void toggleRotation()
-    {
-        if(spinning)
-        {
-            intakeMotor.set(0.0);
-        }
-        else
-        {
-            intakeMotor.set(0.5);
-        }
-        spinning = !spinning;
+        motor.set(velocity);
     }
 }

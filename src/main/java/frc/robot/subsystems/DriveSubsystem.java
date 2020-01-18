@@ -6,9 +6,15 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 
 public class DriveSubsystem extends SubsystemBase
 {
@@ -66,6 +72,11 @@ public class DriveSubsystem extends SubsystemBase
         rightPIDController.setIZone(Iz);
         rightPIDController.setFF(FF);
         rightPIDController.setOutputRange(minOutput, maxOutput);
+        
+        RobotContainer.sbTab.add("Left Drive Encoder", leftEncoder).withWidget(BuiltInWidgets.kEncoder).withPosition(0, 0).withSize(2, 1);
+        RobotContainer.sbTab.add("Right Drive Encoder", rightEncoder).withWidget(BuiltInWidgets.kEncoder).withPosition(2, 0).withSize(2, 1);
+        RobotContainer.sbTab.add("Left Drive PID", leftPIDController).withWidget(BuiltInWidgets.kPIDController).withPosition(0, 1).withSize(1, 2);
+        RobotContainer.sbTab.add("Right Drive PID", rightPIDController).withWidget(BuiltInWidgets.kPIDController).withPosition(4, 1).withSize(1, 2);
         
         SmartDashboard.putNumber("Drive - P", P);
         SmartDashboard.putNumber("Drive - I", I);
