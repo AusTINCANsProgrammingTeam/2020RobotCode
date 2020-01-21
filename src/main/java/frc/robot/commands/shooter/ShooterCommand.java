@@ -16,7 +16,7 @@ public class ShooterCommand extends CommandBase
     @Override
     public void initialize()
     {
-        RobotContainer.shooterSubsystem.spin(velocity);
+        RobotContainer.shooterSubsystem.setPIDReference(velocity);
     }
     
     @Override

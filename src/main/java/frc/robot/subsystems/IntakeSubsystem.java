@@ -7,7 +7,6 @@ import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -17,7 +16,6 @@ import frc.robot.RobotContainer;
 public class IntakeSubsystem extends SubsystemBase
 {
     private DoubleSolenoid extensionSolenoid;
-    private SpeedController intakeMotor;
     private CANPIDController PIDController;
     private CANEncoder encoder;
     private double P, I, D, Iz, FF, maxOutput, minOutput;
@@ -31,8 +29,6 @@ public class IntakeSubsystem extends SubsystemBase
         
         PIDController = sparkMax.getPIDController();
         encoder = sparkMax.getEncoder();
-        
-        intakeMotor = sparkMax;
         
         extensionSolenoid = new DoubleSolenoid(7, 8);
         extensionSolenoid.set(Value.kOff);
@@ -54,10 +50,10 @@ public class IntakeSubsystem extends SubsystemBase
         PIDController.setIZone(Iz);
         PIDController.setFF(FF);
         PIDController.setOutputRange(minOutput, maxOutput);
-        PIDController.setReference(0.5, ControlType.kVelocity);
+        PIDController.setReference(0.0, ControlType.kVelocity);
         
-        RobotContainer.sbTab.add("Intake Encoder", encoder).withWidget(BuiltInWidgets.kEncoder).withPosition(0, 6).withSize(2, 1);
-        RobotContainer.sbTab.add("Intake PID", PIDController).withWidget(BuiltInWidgets.kPIDController).withPosition(0, 7).withSize(1, 2);
+        RobotContainer.sbTab.add("Intake Encoder", encoder).withWidget(BuiltInWidgets.kEncoder).withPosition(5, 1).withSize(2, 1);
+        RobotContainer.sbTab.add("Intake PID", PIDController).withWidget(BuiltInWidgets.kPIDController).withPosition(7, 1).withSize(1, 2);
         
         SmartDashboard.putNumber("Intake - P", P);
         SmartDashboard.putNumber("Intake - I", I);
@@ -66,6 +62,8 @@ public class IntakeSubsystem extends SubsystemBase
         SmartDashboard.putNumber("Intake - FF", FF);
         SmartDashboard.putNumber("Intake - minOutput", minOutput);
         SmartDashboard.putNumber("Intake - maxOutput", maxOutput);
+        
+        sparkMax.close();
     }
     
     public void updatePID()
@@ -121,11 +119,11 @@ public class IntakeSubsystem extends SubsystemBase
     {
         if(spinning)
         {
-            intakeMotor.set(0.0);
+            setPIDReference(0.0);
         }
         else
         {
-            intakeMotor.set(0.5);
+            setPIDReference(10.0);
         }
         spinning = !spinning;
     }

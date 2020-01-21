@@ -6,7 +6,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -14,7 +13,6 @@ import frc.robot.RobotContainer;
 
 public class ShooterSubsystem extends SubsystemBase
 {
-    private SpeedController motor;
     private CANPIDController PIDController;
     private CANEncoder encoder;
     private double P, I, D, Iz, FF, maxOutput, minOutput;
@@ -26,8 +24,6 @@ public class ShooterSubsystem extends SubsystemBase
         
         PIDController = sparkMax.getPIDController();
         encoder = sparkMax.getEncoder();
-        
-        motor = sparkMax;
         
         P = 0.00010; 
         I = 0;
@@ -45,8 +41,8 @@ public class ShooterSubsystem extends SubsystemBase
         PIDController.setOutputRange(minOutput, maxOutput);
         PIDController.setReference(0.5, ControlType.kVelocity);
         
-        RobotContainer.sbTab.add("Intake Encoder", encoder).withWidget(BuiltInWidgets.kEncoder).withPosition(0, 6).withSize(2, 1);
-        RobotContainer.sbTab.add("Intake PID", PIDController).withWidget(BuiltInWidgets.kPIDController).withPosition(0, 7).withSize(1, 2);
+        RobotContainer.sbTab.add("Intake Encoder", encoder).withWidget(BuiltInWidgets.kEncoder).withPosition(5, 3).withSize(2, 1);
+        RobotContainer.sbTab.add("Intake PID", PIDController).withWidget(BuiltInWidgets.kPIDController).withPosition(7, 3).withSize(1, 2);
         
         SmartDashboard.putNumber("Shooter - P", P);
         SmartDashboard.putNumber("Shooter - I", I);
@@ -91,10 +87,5 @@ public class ShooterSubsystem extends SubsystemBase
     public void setPIDReference(double velocity)
     {
         PIDController.setReference(velocity, ControlType.kVelocity);
-    }
-    
-    public void spin(double velocity)
-    {
-        motor.set(velocity);
     }
 }
