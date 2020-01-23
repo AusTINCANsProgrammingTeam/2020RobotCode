@@ -3,20 +3,17 @@ package frc.robot.commands.conveyor;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
-public class ToggleConveyorCommand extends CommandBase
+public class ToggleConveyorForwardCommand extends CommandBase
 {
-    private boolean reversed;
-    
-    public ToggleConveyorCommand(boolean reversed)
+    public ToggleConveyorForwardCommand()
     {
         addRequirements(RobotContainer.conveyorSubsystem);
-        this.reversed = reversed;
     }
     
     @Override
     public void initialize()
     {
-        RobotContainer.conveyorSubsystem.toggleRotation(reversed);
+        RobotContainer.conveyorSubsystem.toggleRotation(false);
     }
     
     @Override

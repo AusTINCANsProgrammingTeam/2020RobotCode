@@ -9,27 +9,29 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 public class ShooterSubsystem extends SubsystemBase
 {
+    private CANSparkMax sparkMax;
     private CANPIDController PIDController;
     private CANEncoder encoder;
     private double P, I, D, Iz, FF, maxOutput, minOutput;
     
     public ShooterSubsystem()
     {
-        CANSparkMax sparkMax = new CANSparkMax(9, MotorType.kBrushless);
+        sparkMax = new CANSparkMax(9, MotorType.kBrushless);
         sparkMax.restoreFactoryDefaults();
         
         PIDController = sparkMax.getPIDController();
         encoder = sparkMax.getEncoder();
         
-        P = 0.00010; 
-        I = 0;
-        D = .0000; 
-        Iz = 0; 
-        FF = 0.000175; 
+        P = Constants.P;
+        I = Constants.I;
+        D = Constants.D;
+        Iz = Constants.Iz;
+        FF = Constants.FF;
         maxOutput = 1; 
         minOutput = -1;
         

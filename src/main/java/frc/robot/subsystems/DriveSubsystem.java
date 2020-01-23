@@ -10,10 +10,17 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 public class DriveSubsystem extends SubsystemBase
 {
+    private CANSparkMax leftMotor1;
+    private CANSparkMax leftMotor2;
+    private CANSparkMax leftMotor3;
+    private CANSparkMax rightMotor1;
+    private CANSparkMax rightMotor2;
+    private CANSparkMax rightMotor3;
     private DifferentialDrive differentialDrive;
     private CANPIDController leftPIDController;
     private CANPIDController rightPIDController;
@@ -23,17 +30,19 @@ public class DriveSubsystem extends SubsystemBase
     
     public DriveSubsystem()
     {
-        CANSparkMax leftMotor1 = new CANSparkMax(0, MotorType.kBrushless);
-        CANSparkMax leftMotor2 = new CANSparkMax(1, MotorType.kBrushless);
-        CANSparkMax leftMotor3 = new CANSparkMax(2, MotorType.kBrushless);
+        leftMotor1 = new CANSparkMax(0, MotorType.kBrushless);
+        leftMotor2 = new CANSparkMax(1, MotorType.kBrushless);
+        leftMotor3 = new CANSparkMax(2, MotorType.kBrushless);
+        leftMotor1.restoreFactoryDefaults();
         leftMotor2.restoreFactoryDefaults();
         leftMotor3.restoreFactoryDefaults();
         leftMotor2.follow(leftMotor1);
         leftMotor3.follow(leftMotor1);
         
-        CANSparkMax rightMotor1 = new CANSparkMax(3, MotorType.kBrushless);
-        CANSparkMax rightMotor2 = new CANSparkMax(4, MotorType.kBrushless);
-        CANSparkMax rightMotor3 = new CANSparkMax(5, MotorType.kBrushless);
+        rightMotor1 = new CANSparkMax(3, MotorType.kBrushless);
+        rightMotor2 = new CANSparkMax(4, MotorType.kBrushless);
+        rightMotor3 = new CANSparkMax(5, MotorType.kBrushless);
+        rightMotor1.restoreFactoryDefaults();
         rightMotor2.restoreFactoryDefaults();
         rightMotor3.restoreFactoryDefaults();
         rightMotor2.follow(rightMotor1);
@@ -47,11 +56,11 @@ public class DriveSubsystem extends SubsystemBase
         leftEncoder = leftMotor1.getEncoder();
         rightEncoder = rightMotor1.getEncoder();
         
-        P = 0.00010; 
-        I = 0;
-        D = .0000; 
-        Iz = 0; 
-        FF = 0.000175; 
+        P = Constants.P;
+        I = Constants.I;
+        D = Constants.D;
+        Iz = Constants.Iz;
+        FF = Constants.FF;
         maxOutput = 1; 
         minOutput = -1;
 
@@ -116,9 +125,16 @@ public class DriveSubsystem extends SubsystemBase
         }
     }
     
+    @Override
+    public void periodic()
+    {
+        SmartDashboard.putNumber("Drive - leftVelocity", -RobotContainer.driveSubsystem.getLeftVelocity());    
+        SmartDashboard.putNumber("Drive - rightVelocity", -RobotContainer.driveSubsystem.getRightVelocity());
+    }
+    
     public void arcadeDrive(double velocity, double heading)
     {
-        differentialDrive.arcadeDrive(velocity, heading * 0.7, true);
+        differentialDrive.arcadeDrive(velocity, heading, true);
     }
     
     public void setLeftPIDReference(double velocity)

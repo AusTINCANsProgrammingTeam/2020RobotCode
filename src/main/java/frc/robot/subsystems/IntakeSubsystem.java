@@ -11,10 +11,12 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 public class IntakeSubsystem extends SubsystemBase
 {
+    private CANSparkMax sparkMax;
     private DoubleSolenoid extensionSolenoid;
     private CANPIDController PIDController;
     private CANEncoder encoder;
@@ -24,7 +26,7 @@ public class IntakeSubsystem extends SubsystemBase
     
     public IntakeSubsystem()
     {
-        CANSparkMax sparkMax = new CANSparkMax(6, MotorType.kBrushless);
+        sparkMax = new CANSparkMax(6, MotorType.kBrushless);
         sparkMax.restoreFactoryDefaults();
         
         PIDController = sparkMax.getPIDController();
@@ -36,12 +38,12 @@ public class IntakeSubsystem extends SubsystemBase
         spinning = false;
         extended = false;
         
-        P = 0.00010; 
-        I = 0;
-        D = .0000; 
-        Iz = 0; 
-        FF = 0.000175; 
-        maxOutput = 1; 
+        P = Constants.P;
+        I = Constants.I;
+        D = Constants.D;
+        Iz = Constants.Iz;
+        FF = Constants.FF;
+        maxOutput = 1;
         minOutput = -1;
         
         PIDController.setP(P);
@@ -62,8 +64,6 @@ public class IntakeSubsystem extends SubsystemBase
         SmartDashboard.putNumber("Intake - FF", FF);
         SmartDashboard.putNumber("Intake - minOutput", minOutput);
         SmartDashboard.putNumber("Intake - maxOutput", maxOutput);
-        
-        sparkMax.close();
     }
     
     public void updatePID()

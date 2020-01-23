@@ -9,10 +9,12 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 public class ConveyorSubsystem extends SubsystemBase
 {
+    private CANSparkMax motor;
     private CANEncoder encoder;
     private CANPIDController PIDController;
     private double P, I, D, Iz, FF, maxOutput, minOutput;
@@ -20,18 +22,18 @@ public class ConveyorSubsystem extends SubsystemBase
     
     public ConveyorSubsystem()
     {
-        CANSparkMax motor = new CANSparkMax(10, MotorType.kBrushless);
+        motor = new CANSparkMax(12, MotorType.kBrushless);
         motor.restoreFactoryDefaults();
         encoder = motor.getEncoder();
         PIDController = motor.getPIDController();
         
         spinning = false;
         
-        P = 0.00010; 
-        I = 0;
-        D = .0000; 
-        Iz = 0; 
-        FF = 0.000175; 
+        P = Constants.P;
+        I = Constants.I;
+        D = Constants.D;
+        Iz = Constants.Iz;
+        FF = Constants.FF;
         maxOutput = 1; 
         minOutput = -1;
         
@@ -53,8 +55,6 @@ public class ConveyorSubsystem extends SubsystemBase
         SmartDashboard.putNumber("Conveyor - FF", FF);
         SmartDashboard.putNumber("Conveyor - minOutput", minOutput);
         SmartDashboard.putNumber("Conveyor - maxOutput", maxOutput);
-        
-        motor.close();
     }
     
     public void updatePID()

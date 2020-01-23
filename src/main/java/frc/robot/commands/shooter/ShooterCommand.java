@@ -20,8 +20,14 @@ public class ShooterCommand extends CommandBase
     }
     
     @Override
+    public void end(boolean interrupted)
+    {
+        RobotContainer.shooterSubsystem.setPIDReference(0.0);
+    }
+    
+    @Override
     public boolean isFinished()
     {
-        return true;
+        return false;
     }
 }
