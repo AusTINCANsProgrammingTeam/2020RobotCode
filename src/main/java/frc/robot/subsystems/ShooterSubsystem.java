@@ -6,6 +6,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,14 +17,18 @@ import frc.robot.RobotContainer;
 public class ShooterSubsystem extends SubsystemBase
 {
     private CANSparkMax sparkMax;
+    private DoubleSolenoid solenoid;
     private CANPIDController PIDController;
     private CANEncoder encoder;
     private double P, I, D, Iz, FF, maxOutput, minOutput;
     
     public ShooterSubsystem()
     {
-        sparkMax = new CANSparkMax(9, MotorType.kBrushless);
+        sparkMax = new CANSparkMax(7, MotorType.kBrushless);
         sparkMax.restoreFactoryDefaults();
+        
+        solenoid = new DoubleSolenoid(11, 12);
+        solenoid.set(Value.kReverse);
         
         PIDController = sparkMax.getPIDController();
         encoder = sparkMax.getEncoder();
@@ -89,5 +95,21 @@ public class ShooterSubsystem extends SubsystemBase
     public void setPIDReference(double velocity)
     {
         PIDController.setReference(velocity, ControlType.kVelocity);
+    }
+    
+    public void toggleSolenoid()
+    {
+        switch(solenoid.get())
+        {
+            case kForward:
+                solenoid.set(Value.kReverse);
+                break;
+            case kReverse:
+                solenoid.set(Value.kForward);
+                break;
+            default:
+                solenoid.set(Value.kReverse);
+                break;
+        }
     }
 }

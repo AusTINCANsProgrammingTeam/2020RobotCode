@@ -18,6 +18,7 @@ import frc.robot.commands.drive.DriveCommand;
 import frc.robot.commands.intake.ToggleExtensionCommand;
 import frc.robot.commands.intake.ToggleRotationCommand;
 import frc.robot.commands.shooter.ShooterCommand;
+import frc.robot.commands.shooter.ShooterSolenoidCommand;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -54,8 +55,9 @@ public class RobotContainer
         buttonOne.whenReleased(new ToggleExtensionCommand());
         buttonTwo.whenReleased(new ToggleRotationCommand());
         buttonThree.whileHeld(new ShooterCommand(10.0));
-        buttonFour.whenReleased(new ToggleConveyorForwardCommand());
-        buttonFive.whenReleased(new ToggleConveyorReverseCommand());
+        buttonFour.whenReleased(new ShooterSolenoidCommand());
+        buttonFive.whenReleased(new ToggleConveyorForwardCommand());
+        buttonSix.whenReleased(new ToggleConveyorReverseCommand());
     }
     
     public Command getAutonomousCommand()

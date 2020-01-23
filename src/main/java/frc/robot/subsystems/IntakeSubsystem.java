@@ -32,7 +32,7 @@ public class IntakeSubsystem extends SubsystemBase
         PIDController = sparkMax.getPIDController();
         encoder = sparkMax.getEncoder();
         
-        extensionSolenoid = new DoubleSolenoid(7, 8);
+        extensionSolenoid = new DoubleSolenoid(9, 10);
         extensionSolenoid.set(Value.kOff);
         
         spinning = false;

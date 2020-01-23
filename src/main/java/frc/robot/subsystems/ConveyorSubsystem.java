@@ -22,7 +22,7 @@ public class ConveyorSubsystem extends SubsystemBase
     
     public ConveyorSubsystem()
     {
-        motor = new CANSparkMax(12, MotorType.kBrushless);
+        motor = new CANSparkMax(8, MotorType.kBrushless);
         motor.restoreFactoryDefaults();
         encoder = motor.getEncoder();
         PIDController = motor.getPIDController();
