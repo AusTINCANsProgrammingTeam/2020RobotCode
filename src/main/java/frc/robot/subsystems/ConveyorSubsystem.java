@@ -6,6 +6,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,6 +17,7 @@ import frc.robot.RobotContainer;
 public class ConveyorSubsystem extends SubsystemBase
 {
     private CANSparkMax motor;
+    private DoubleSolenoid solenoid;
     private CANEncoder encoder;
     private CANPIDController PIDController;
     private double P, I, D, Iz, FF, maxOutput, minOutput;
@@ -24,6 +27,8 @@ public class ConveyorSubsystem extends SubsystemBase
     {
         motor = new CANSparkMax(12, MotorType.kBrushless);
         motor.restoreFactoryDefaults();
+        solenoid = new DoubleSolenoid(4, 5);
+        solenoid.set(Value.kReverse);
         encoder = motor.getEncoder();
         PIDController = motor.getPIDController();
         
@@ -45,8 +50,9 @@ public class ConveyorSubsystem extends SubsystemBase
         PIDController.setOutputRange(minOutput, maxOutput);
         PIDController.setReference(0.0, ControlType.kVelocity);
         
-        RobotContainer.sbTab.add("Conveyor Encoder", encoder).withWidget(BuiltInWidgets.kEncoder).withPosition(8, 1).withSize(2, 1);
-        RobotContainer.sbTab.add("Conveyor PID", PIDController).withWidget(BuiltInWidgets.kPIDController).withPosition(10, 1).withSize(1, 2);
+        RobotContainer.sbTab.add("Conveyor Pos", encoder.getPosition()).withPosition(3, 0).withSize(1, 1);
+        RobotContainer.sbTab.add("Conveyor Vel", encoder.getVelocity()).withPosition(3, 1).withSize(1, 1);
+        //RobotContainer.sbTab.add("Conveyor PID", PIDController).withWidget(BuiltInWidgets.kPIDController).withPosition(10, 1).withSize(1, 2);
         
         SmartDashboard.putNumber("Conveyor - P", P);
         SmartDashboard.putNumber("Conveyor - I", I);
@@ -111,5 +117,21 @@ public class ConveyorSubsystem extends SubsystemBase
             }
         }
         spinning = !spinning;
+    }
+    
+    public void toggleSolenoid()
+    {
+        switch(solenoid.get())
+        {
+            case kForward:
+                solenoid.set(Value.kReverse);
+                break;
+            case kReverse:
+                solenoid.set(Value.kForward);
+                break;
+            default:
+                solenoid.set(Value.kReverse);
+                break;
+        }
     }
 }

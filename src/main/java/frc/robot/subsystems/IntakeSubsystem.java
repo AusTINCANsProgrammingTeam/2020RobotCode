@@ -32,7 +32,7 @@ public class IntakeSubsystem extends SubsystemBase
         PIDController = sparkMax.getPIDController();
         encoder = sparkMax.getEncoder();
         
-        extensionSolenoid = new DoubleSolenoid(7, 8);
+        extensionSolenoid = new DoubleSolenoid(6, 7);
         extensionSolenoid.set(Value.kOff);
         
         spinning = false;
@@ -54,8 +54,9 @@ public class IntakeSubsystem extends SubsystemBase
         PIDController.setOutputRange(minOutput, maxOutput);
         PIDController.setReference(0.0, ControlType.kVelocity);
         
-        RobotContainer.sbTab.add("Intake Encoder", encoder).withWidget(BuiltInWidgets.kEncoder).withPosition(5, 1).withSize(2, 1);
-        RobotContainer.sbTab.add("Intake PID", PIDController).withWidget(BuiltInWidgets.kPIDController).withPosition(7, 1).withSize(1, 2);
+        RobotContainer.sbTab.add("Intake Pos", encoder.getPosition()).withPosition(2, 0).withSize(1, 1);
+        RobotContainer.sbTab.add("Intake Vel", encoder.getVelocity()).withPosition(2, 1).withSize(1, 1);
+        //RobotContainer.sbTab.add("Intake PID", PIDController).withWidget(BuiltInWidgets.kPIDController).withPosition(7, 1).withSize(1, 2);
         
         SmartDashboard.putNumber("Intake - P", P);
         SmartDashboard.putNumber("Intake - I", I);

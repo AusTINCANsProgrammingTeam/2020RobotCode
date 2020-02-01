@@ -6,8 +6,11 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -78,10 +81,12 @@ public class DriveSubsystem extends SubsystemBase
         rightPIDController.setFF(FF);
         rightPIDController.setOutputRange(minOutput, maxOutput);
         
-        RobotContainer.sbTab.add("Left Drive Encoder", leftEncoder).withWidget(BuiltInWidgets.kEncoder).withPosition(0, 0).withSize(2, 1);
-        RobotContainer.sbTab.add("Right Drive Encoder", rightEncoder).withWidget(BuiltInWidgets.kEncoder).withPosition(2, 0).withSize(2, 1);
-        RobotContainer.sbTab.add("Left Drive PID", leftPIDController).withWidget(BuiltInWidgets.kPIDController).withPosition(0, 1).withSize(1, 2);
-        RobotContainer.sbTab.add("Right Drive PID", rightPIDController).withWidget(BuiltInWidgets.kPIDController).withPosition(4, 1).withSize(1, 2);
+        RobotContainer.sbTab.add("L Drive Pos", leftEncoder.getPosition()).withPosition(0, 0).withSize(1, 1);
+        RobotContainer.sbTab.add("L Drive Vel", leftEncoder.getVelocity()).withPosition(0, 1).withSize(1, 1);
+        RobotContainer.sbTab.add("R Drive Pos", rightEncoder.getPosition()).withPosition(1, 0).withSize(1, 1);
+        RobotContainer.sbTab.add("R Drive Vel", rightEncoder.getVelocity()).withPosition(1, 1).withSize(1, 1);
+        //RobotContainer.driveTab.add("Left Drive PID", leftPIDController).withWidget(BuiltInWidgets.kPIDController).withPosition(0, 1).withSize(1, 2);
+        //RobotContainer.driveTab.add("Right Drive PID", rightPIDController).withWidget(BuiltInWidgets.kPIDController).withPosition(4, 1).withSize(1, 2);
         
         SmartDashboard.putNumber("Drive - P", P);
         SmartDashboard.putNumber("Drive - I", I);

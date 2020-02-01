@@ -43,8 +43,9 @@ public class ShooterSubsystem extends SubsystemBase
         PIDController.setOutputRange(minOutput, maxOutput);
         PIDController.setReference(0.5, ControlType.kVelocity);
         
-        RobotContainer.sbTab.add("Intake Encoder", encoder).withWidget(BuiltInWidgets.kEncoder).withPosition(5, 3).withSize(2, 1);
-        RobotContainer.sbTab.add("Intake PID", PIDController).withWidget(BuiltInWidgets.kPIDController).withPosition(7, 3).withSize(1, 2);
+        RobotContainer.sbTab.add("Shooter Pos", encoder.getPosition()).withPosition(4, 0).withSize(1, 1);
+        RobotContainer.sbTab.add("Shooter Vel", encoder.getVelocity()).withPosition(4, 1).withSize(1, 1);
+        //RobotContainer.sbTab.add("Intake PID", PIDController).withWidget(BuiltInWidgets.kPIDController).withPosition(7, 3).withSize(1, 2);
         
         SmartDashboard.putNumber("Shooter - P", P);
         SmartDashboard.putNumber("Shooter - I", I);
