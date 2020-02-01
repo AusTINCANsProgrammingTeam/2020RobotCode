@@ -6,11 +6,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -18,12 +14,12 @@ import frc.robot.RobotContainer;
 
 public class DriveSubsystem extends SubsystemBase
 {
-    private CANSparkMax leftMotor1;
-    private CANSparkMax leftMotor2;
-    private CANSparkMax leftMotor3;
-    private CANSparkMax rightMotor1;
-    private CANSparkMax rightMotor2;
-    private CANSparkMax rightMotor3;
+    private static CANSparkMax leftMotor1;
+    private static CANSparkMax leftMotor2;
+    private static CANSparkMax leftMotor3;
+    private static CANSparkMax rightMotor1;
+    private static CANSparkMax rightMotor2;
+    private static CANSparkMax rightMotor3;
     private DifferentialDrive differentialDrive;
     private CANPIDController leftPIDController;
     private CANPIDController rightPIDController;

@@ -7,8 +7,6 @@
 
 package frc.robot;
 
-import java.util.logging.Logger;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
