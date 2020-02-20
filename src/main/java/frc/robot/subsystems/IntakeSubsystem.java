@@ -16,6 +16,7 @@ import frc.robot.RobotContainer;
 public class IntakeSubsystem extends SubsystemBase
 {
     private static CANSparkMax sparkMax;
+    private static CANSparkMax hopperMotor;
     private DoubleSolenoid extensionSolenoid;
     private CANPIDController PIDController;
     private CANEncoder encoder;
@@ -25,13 +26,18 @@ public class IntakeSubsystem extends SubsystemBase
     
     public IntakeSubsystem()
     {
-        sparkMax = new CANSparkMax(6, MotorType.kBrushless);
+        sparkMax = new CANSparkMax(7, MotorType.kBrushless);
+        hopperMotor = new CANSparkMax(8, MotorType.kBrushless);
         sparkMax.restoreFactoryDefaults();
+        hopperMotor.restoreFactoryDefaults();
+        sparkMax.setOpenLoopRampRate(0.2);
+        hopperMotor.setOpenLoopRampRate(0.2);
+        hopperMotor.follow(sparkMax);
         
         PIDController = sparkMax.getPIDController();
         encoder = sparkMax.getEncoder();
         
-        extensionSolenoid = new DoubleSolenoid(6, 7);
+        extensionSolenoid = new DoubleSolenoid(1, 2);
         extensionSolenoid.set(Value.kOff);
         
         spinning = false;

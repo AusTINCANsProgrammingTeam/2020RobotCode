@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.function.BooleanSupplier;
+
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
@@ -17,11 +19,13 @@ public class ShooterSubsystem extends SubsystemBase
     private CANPIDController PIDController;
     private CANEncoder encoder;
     private double P, I, D, Iz, FF, maxOutput, minOutput;
+    private boolean distanceBool;
     
     public ShooterSubsystem()
     {
         sparkMax = new CANSparkMax(9, MotorType.kBrushless);
         sparkMax.restoreFactoryDefaults();
+        sparkMax.setOpenLoopRampRate(0.2);
         
         PIDController = sparkMax.getPIDController();
         encoder = sparkMax.getEncoder();
@@ -45,6 +49,8 @@ public class ShooterSubsystem extends SubsystemBase
         RobotContainer.sbTab.add("Shooter Pos", encoder.getPosition()).withPosition(4, 0).withSize(1, 1);
         RobotContainer.sbTab.add("Shooter Vel", encoder.getVelocity()).withPosition(4, 1).withSize(1, 1);
         //RobotContainer.sbTab.add("Intake PID", PIDController).withWidget(BuiltInWidgets.kPIDController).withPosition(7, 3).withSize(1, 2);
+        
+        SmartDashboard.putBoolean("Shooter Dist", distanceBool);
         
         SmartDashboard.putNumber("Shooter - P", P);
         SmartDashboard.putNumber("Shooter - I", I);

@@ -29,21 +29,27 @@ public class DriveSubsystem extends SubsystemBase
     
     public DriveSubsystem()
     {
-        leftMotor1 = new CANSparkMax(0, MotorType.kBrushless);
-        leftMotor2 = new CANSparkMax(1, MotorType.kBrushless);
-        leftMotor3 = new CANSparkMax(2, MotorType.kBrushless);
+        leftMotor1 = new CANSparkMax(1, MotorType.kBrushless);
+        leftMotor2 = new CANSparkMax(2, MotorType.kBrushless);
+        leftMotor3 = new CANSparkMax(3, MotorType.kBrushless);
         leftMotor1.restoreFactoryDefaults();
         leftMotor2.restoreFactoryDefaults();
         leftMotor3.restoreFactoryDefaults();
+        leftMotor1.setOpenLoopRampRate(0.2);
+        leftMotor2.setOpenLoopRampRate(0.2);
+        leftMotor3.setOpenLoopRampRate(0.2);
         leftMotor2.follow(leftMotor1);
         leftMotor3.follow(leftMotor1);
         
-        rightMotor1 = new CANSparkMax(3, MotorType.kBrushless);
-        rightMotor2 = new CANSparkMax(4, MotorType.kBrushless);
-        rightMotor3 = new CANSparkMax(5, MotorType.kBrushless);
+        rightMotor1 = new CANSparkMax(4, MotorType.kBrushless);
+        rightMotor2 = new CANSparkMax(5, MotorType.kBrushless);
+        rightMotor3 = new CANSparkMax(6, MotorType.kBrushless);
         rightMotor1.restoreFactoryDefaults();
         rightMotor2.restoreFactoryDefaults();
         rightMotor3.restoreFactoryDefaults();
+        rightMotor1.setOpenLoopRampRate(0.2);
+        rightMotor2.setOpenLoopRampRate(0.2);
+        rightMotor3.setOpenLoopRampRate(0.2);
         rightMotor2.follow(rightMotor1);
         rightMotor3.follow(rightMotor1);
         
@@ -81,6 +87,7 @@ public class DriveSubsystem extends SubsystemBase
         RobotContainer.sbTab.add("L Drive Vel", leftEncoder.getVelocity()).withPosition(0, 1).withSize(1, 1);
         RobotContainer.sbTab.add("R Drive Pos", rightEncoder.getPosition()).withPosition(1, 0).withSize(1, 1);
         RobotContainer.sbTab.add("R Drive Vel", rightEncoder.getVelocity()).withPosition(1, 1).withSize(1, 1);
+        
         //RobotContainer.driveTab.add("Left Drive PID", leftPIDController).withWidget(BuiltInWidgets.kPIDController).withPosition(0, 1).withSize(1, 2);
         //RobotContainer.driveTab.add("Right Drive PID", rightPIDController).withWidget(BuiltInWidgets.kPIDController).withPosition(4, 1).withSize(1, 2);
         

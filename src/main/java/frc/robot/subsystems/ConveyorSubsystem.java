@@ -24,9 +24,10 @@ public class ConveyorSubsystem extends SubsystemBase
     
     public ConveyorSubsystem()
     {
-        motor = new CANSparkMax(12, MotorType.kBrushless);
+        motor = new CANSparkMax(10, MotorType.kBrushless);
         motor.restoreFactoryDefaults();
-        solenoid = new DoubleSolenoid(4, 5);
+        motor.setOpenLoopRampRate(0.2);
+        solenoid = new DoubleSolenoid(3, 4);
         solenoid.set(Value.kReverse);
         encoder = motor.getEncoder();
         PIDController = motor.getPIDController();
